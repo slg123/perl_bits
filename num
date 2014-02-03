@@ -1,0 +1,22 @@
+#!/usr/bin/perl 
+use strict;
+use warnings;
+
+my @arr;
+open my $fh, '<', 'numbers';
+while (<$fh>) {
+    s/\R//g;
+    push @arr, $_;
+}
+close $fh;
+
+my $i = 0;
+for ( @arr ) {
+    if ( $i % 6 == 0 ) {
+        print "\n"; 
+    } else {
+        print "$_ ";
+    }
+    $i++;
+}
+

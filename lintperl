@@ -1,0 +1,15 @@
+#!/bin/bash
+
+PLATFORM=i686-linux-thread-multi; export PLATFORM
+INSTALL_HOME=/usr/netiq; export INSTALL_HOME
+LD_LIBRARY_PATH=$INSTALL_HOME/AM/lib; export LD_LIBRARY_PATH
+#PERL5LIB=$INSTALL_HOME/common/lib/site_perl/5.10.0/$PLATFORM/NetIQ; export PERL5LIB
+#PERL5LIB=/usr/netiq/common/lib/site_perl/5.10.0/i686-linux-thread-multi/NetIQ; export PERL5LIB
+PERL5LIB=/usr/netiq/common/lib/site_perl/5.10.0/i686-linux-thread-multi; export PERL5LIB
+
+if [ $# -ne 1 ]; then
+    echo "usage: $0 <filename>"
+    exit
+fi
+
+perl -Mstrict -Mdiagnostics -cw $1

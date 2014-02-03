@@ -1,0 +1,11 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings;
+
+my @pdisk_list = qw( emcpower999 emcpowertools hd1 hd2 sd1 sd2 emcpower1 emcpower2 emcpower3 ); 
+foreach my $i ( @pdisk_list ) {
+    next if $i =~ /emcpower/; 
+    my $resmsg = "UNIX_PhysicalDiskObj = $i"; 
+    print "$resmsg\n";
+}
