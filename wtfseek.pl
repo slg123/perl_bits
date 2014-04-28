@@ -12,7 +12,8 @@ our $iter = 2;
 my %logfile_linecounts = (); 
 
 sub get_previous_linecounts {
-    my @logfiles = qw( /var/log/messages-20140126 /var/log/messages-20140202 /var/log/messages ); 
+    #my @logfiles = qw( /var/log/messages-20140126 /var/log/messages-20140202 /var/log/messages ); 
+    my @logfiles = glob( '/var/log/messages*' ); 
     my @linecounts;
     for my $logfile ( @logfiles ) {
         my @linecount = split / /, `wc -l $logfile`; 

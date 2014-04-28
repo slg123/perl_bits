@@ -1,12 +1,20 @@
 #!/usr/bin/perl
 
-use autodie;
 use strict;
 use warnings;
 
-my @all;
-open my $fh, "<", "all_database.out";
-while ( <$fh> ) { push @all, $1."\n" if $_ =~ /(db[0-9]+[a-z]+)/ }
-my %seen;
-my @unique = sort(grep { ! $seen{$_}++ } @all); 
-for ( @unique ) { print }
+open my $fh, "<", "/var/log/messages" or die "can't open $!";
+my $size = -s $fh;
+my ( $current_position, $new_data, $buffer ); 
+
+$current_position = tell $fh;
+print "size: $size current position: $current_position\n"; 
+
+seek ( $fh, -1024, 2 ); 
+$current_position = tell $fh;
+print "size: $size current position: $current_position\n";
+
+$new_data = read( $fh, $buffer, 1024 );
+
+print $new_data;
+#print $buffer;

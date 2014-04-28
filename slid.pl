@@ -57,7 +57,6 @@ sub send_report {
     my $msg = MIME::Lite->new(
         From     => 'root@om.houqe.lab',
         To       => 'scott.gillespie@netiq.com',
-        Cc       => 'scott_layne_gillespie@hotmail.com',
         Subject  => 'home dir checksum diffs',
         Type     => 'TEXT',
         Encoding => 'base64',
