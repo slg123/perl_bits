@@ -1,0 +1,49 @@
+#!/usr/bin/perl
+
+#
+# scpu - solaris cpu usage. Code lifted from Brendan Gregg's prustat utility.
+#
+
+use strict;
+use warnings;
+use List::Util qw(reduce);
+
+my @proc = glob( "/proc/*" ); 
+my @pids; 
+for ( @proc ) {
+    my @f = split /\//; 
+    push @pids, $f[2] if defined;
+}
+
+sub cpu_mem_total {
+
+    my @total_cpu;
+
+    for my $pid ( @pids ) {
+        my $psinfo; 
+
+        open( PSINFO, "/proc/$pid/psinfo" ) || next;
+        read( PSINFO, $psinfo, 256 ); 
+        close PSINFO;
+
+        my ( $pr_flag, $pr_nlwp, $pr_pid, $pr_ppid, $pr_pgid, $pr_sid,
+             $pr_uid, $pr_euid, $pr_gid, $pr_egid, $pr_addr, $pr_size,
+             $pr_rssize, $pr_pad1, $pr_ttydev, $pr_pctcpu, $pr_pctmem,
+             $pr_start, $pr_time, $pr_ctime, $pr_fname, $pr_psargs,
+             $pr_wstat, $pr_argc, $pr_argv, $pr_envp, $pr_dmodel,
+             $pr_taskid, $pr_projid, $pr_nzomb, $pr_poolid, $pr_zoneid, $filler
+        ) = unpack( "iiiiiiiiiiIiiiiSSa8a8a8Z16Z80iiIIaa3iiiiii", $psinfo);
+
+        my $percent_cpu = $pr_pctcpu / 0x8000;
+        push @total_cpu, ( $percent_cpu * 100 );
+    }
+    my $tcpu = reduce { our ( $a, $b ); $a + $b } @total_cpu;
+    #my $tcpu = reduce { $a + $b } @total_cpu;
+
+    printf "CPU Percent: %.2f\n", $tcpu; 
+
+}
+
+while ( sleep(1) ) {
+    cpu_mem_total(); 
+}
