@@ -3,9 +3,6 @@
 use strict;
 use warnings;
 
-my @factors = ();
-my @prime_factors = (); 
-
 my $bignum = 600851475143;
 
 my $i = 1;

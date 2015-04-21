@@ -20,6 +20,7 @@ sub cpu_mem_total {
     my @total_cpu;
 
     for my $pid ( @pids ) {
+
         my $psinfo; 
 
         open( PSINFO, "/proc/$pid/psinfo" ) || next;
