@@ -13,6 +13,6 @@ while ( <$fh> ) {
     push @nums, $line; 
 }
 
-my $sum = substr(( reduce { $a + $b } @nums ), 0, 11 ); 
+my $sum = substr(( reduce { our $a + our $b } @nums ), 0, 11 ); 
 $sum =~ s/[^\d]//g; 
 print $sum, "\n"; 
